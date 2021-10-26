@@ -10,17 +10,17 @@
 - name: Install php
   yum: pkg={{ item }} state=present
   with_items:
-    - php
+     - php
 
 - name: Install php modules
   yum: pkg={{ item }} enablerepo=remi,remi-php70 state=present
   with_items:
-    - php-xml
-    - php-mysql
-    - php-gd
+     - php-xml
+     - php-mysql
+     - php-gd
   notify:
-  - restart httpd
+    - restart httpd
   
-  - name: Install Composer globally
+- name: Install Composer globally
   shell:  curl -sS https://getcomposer.org/installer | /usr/bin/php && /bin/mv -f composer.phar {{ composer_path }} creates={{ composer_path }}
 
