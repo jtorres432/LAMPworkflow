@@ -1,0 +1,13 @@
+- name: Install nano, git, etc
+  yum: pkg={{ item }} state=installed
+  with_items:
+     - git
+     - nano
+     - curl
+     - gcc
+     - kernel-devel
+     - wget
+     - vim
+     - man
+     - unzip
+     - libselinux-python
