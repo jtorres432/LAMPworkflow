@@ -7,3 +7,20 @@
 
 - name: Start the MySQL service
   service: name=mariadb state=started enabled=true
+  
+- name: Add allow rule for 3306 to firewall - dummy testing
+  command: ping -c1 localhost
+  notify:
+  - Restart the MySQL service
+  
+- name: Set the root password for all root accounts
+  mysql_user: name=root host={{ item }} password={{ mysql_root_password }} priv=*.*:ALL,GRANT
+  with_items:
+    - "{{ ansible_hostname }}"
+    - 127.0.0.1
+    - ::1
+    - localhost
+  when: ansible_hostname != 'localhost'
+
+- name: Configure MySql for easy access as root user
+  template: src=.my.cnf.j2 dest=~/.my.cnf owner=root group=root mode=0644
