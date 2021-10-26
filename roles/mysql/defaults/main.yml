@@ -1,2 +1,6 @@
-- name: Restart the MySQL service
-  service: name=mariadb state=restarted enabled=true
+ mysql_root_password: toor
+
+ mysql_users:
+      - name: root
+        pass: toor
+        priv: "*.*:ALL,GRANT"
