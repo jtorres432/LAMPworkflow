@@ -1,0 +1,24 @@
+- name: Install Apache web server
+  yum: pkg={{ item }} state=installed
+  with_items:
+     - httpd
+     
+- name: Change default apache vhost
+  template: src=default.tpl dest=/etc/httpd/conf.d/000-default.conf
+
+- name: Set global ServerName for apache config
+  lineinfile: dest=/etc/httpd/conf/httpd.conf line="ServerName localhost"
+
+- name: SELinux status
+  command: sestatus
+  notify:
+    - restart httpd
+
+- name: Ensure Apache running
+  service: name=httpd state=started enabled=yes
+  
+  
+- name: Add firewall rules
+  shell: firewall-cmd --add-service=httpd --permanent
+  notify:
+    - restart firewalld
