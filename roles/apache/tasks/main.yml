@@ -19,6 +19,6 @@
   
   
 - name: Add firewall rules
-  shell: firewall-cmd --add-service=httpd --permanent
+  shell: firewall-cmd --add-service=http --permanent
   notify:
     - restart firewalld
